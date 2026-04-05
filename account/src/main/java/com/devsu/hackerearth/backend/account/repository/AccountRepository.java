@@ -7,5 +7,5 @@ import com.devsu.hackerearth.backend.account.model.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    
+    boolean existsByNumber(String number);
 }

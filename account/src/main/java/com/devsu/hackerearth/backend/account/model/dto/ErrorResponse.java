@@ -16,5 +16,4 @@ public class ErrorResponse {
     private String path;
     private LocalDateTime timestamp = LocalDateTime.now();
 
-
 }
