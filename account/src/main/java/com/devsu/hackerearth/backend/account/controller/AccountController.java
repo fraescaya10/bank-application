@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,42 +29,49 @@ public class AccountController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<AccountDto>> getAll(){
+	public ResponseEntity<List<AccountDto>> getAll() {
 		// api/accounts
 		// Get all accounts
 		List<AccountDto> accountDtos = this.accountService.getAll();
 		return new ResponseEntity<List<AccountDto>>(accountDtos, HttpStatus.OK);
 	}
 
-	public ResponseEntity<AccountDto> get(@PathVariable Long id){
+	@GetMapping("/{id}")
+	public ResponseEntity<AccountDto> get(@PathVariable Long id) {
 		// api/accounts/{id}
 		// Get accounts by id
-		return null;
+		AccountDto accountDto = this.accountService.getById(id);
+		return new ResponseEntity<AccountDto>(accountDto, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<AccountDto> create(@RequestBody AccountDto accountDto){
+	public ResponseEntity<AccountDto> create(@RequestBody AccountDto accountDto) {
 		// api/accounts
 		AccountDto accountDtoSaved = this.accountService.create(accountDto);
 		return new ResponseEntity<AccountDto>(accountDtoSaved, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<AccountDto> update(@PathVariable Long id, @RequestBody AccountDto accountDto){
+	@PutMapping("/{id}")
+	public ResponseEntity<AccountDto> update(@PathVariable Long id, @RequestBody AccountDto accountDto) {
 		// api/accounts/{id}
 		// Update accounts
-		return null;
+		AccountDto accountUpdated = this.accountService.update(id, accountDto);
+		return new ResponseEntity<AccountDto>(accountUpdated, HttpStatus.OK);
 	}
 
-	public ResponseEntity<AccountDto> partialUpdate(@PathVariable Long id, @RequestBody PartialAccountDto partialAccountDto){
+	@PatchMapping("/{id}")
+	public ResponseEntity<AccountDto> partialUpdate(@PathVariable Long id,
+			@RequestBody PartialAccountDto partialAccountDto) {
 		// api/accounts/{id}
 		// Partial update accounts
-		return null;
+		AccountDto accountUpdated = this.accountService.partialUpdate(id, partialAccountDto);
+		return new ResponseEntity<AccountDto>(accountUpdated, HttpStatus.OK);
 	}
 
-	public ResponseEntity<Void> delete(@PathVariable Long id){
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		// api/accounts/{id}
-		// Delete accounts
-		return null;
+		this.accountService.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
-

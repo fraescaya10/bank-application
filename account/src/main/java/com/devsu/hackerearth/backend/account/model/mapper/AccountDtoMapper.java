@@ -5,8 +5,9 @@ import com.devsu.hackerearth.backend.account.model.dto.AccountDto;
 import com.devsu.hackerearth.backend.account.utils.Utils;
 
 public class AccountDtoMapper {
-    public static AccountDto toDto(Account account) {
-        return new AccountDto(account.getId(), Utils.maskNumber(account.getNumber(), 4), account.getType(),
+    public static AccountDto toDto(Account account, boolean withMask) {
+        String accountNumber = withMask ? Utils.maskNumber(account.getNumber(), 4) : account.getNumber();
+        return new AccountDto(account.getId(), accountNumber, account.getType(),
                 account.getInitialAmount(), account.isActive(), account.getClientId());
     }
 
