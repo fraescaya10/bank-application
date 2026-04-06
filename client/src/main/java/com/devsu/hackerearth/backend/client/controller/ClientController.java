@@ -2,8 +2,14 @@ package com.devsu.hackerearth.backend.client.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,39 +28,52 @@ public class ClientController {
 		this.clientService = clientService;
 	}
 
+	@GetMapping
 	public ResponseEntity<List<ClientDto>> getAll(){
 		// api/clients
 		// Get all clients
-		return null;
+		List<ClientDto> clientsList = this.clientService.getAll();
+		return new ResponseEntity<>(clientsList, HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
 	public ResponseEntity<ClientDto> get(@PathVariable Long id){
 		// api/clients/{id}
 		// Get clients by id
-		return null;
+		ClientDto client = this.clientService.getById(id);
+		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 
+	@PostMapping
 	public ResponseEntity<ClientDto> create(@RequestBody ClientDto clientDto){
 		// api/clients
 		// Create client
-		return null;
+		ClientDto client = this.clientService.create(clientDto);
+		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 
+	@PutMapping("/{id}")
 	public ResponseEntity<ClientDto> update(@PathVariable Long id, @RequestBody ClientDto clientDto){
 		// api/clients/{id}
 		// Update client
-		return null;
+		ClientDto client = this.clientService.update(id, clientDto);
+		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 
+	@PatchMapping("/{id}")
 	public ResponseEntity<ClientDto> partialUpdate(@PathVariable Long id, @RequestBody PartialClientDto partialClientDto){
 		// api/accounts/{id}
 		// Partial update accounts
-		return null;
+		ClientDto client = this.clientService.partialUpdate(id, partialClientDto);
+		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		// api/clients/{id}
 		// Delete client
-		return null;
+	
+		this.clientService.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

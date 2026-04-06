@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,18 +27,21 @@ public class TransactionController {
 		this.transactionService = transactionService;
 	}
 
+	@GetMapping
     public ResponseEntity<List<TransactionDto>> getAll(){
 		// api/transactions
 		// Get all transactions
 		return null;
 	}
 
+	@GetMapping("/{id}")
     public ResponseEntity<TransactionDto> get(@PathVariable Long id){
 		// api/transactions/{id}
 		// Get transactions by id
 		return null;
 	}
 
+	@PostMapping
 	public ResponseEntity<TransactionDto> create(@RequestBody TransactionDto transactionDto){
 		// api/transactions
 		// Create transactions

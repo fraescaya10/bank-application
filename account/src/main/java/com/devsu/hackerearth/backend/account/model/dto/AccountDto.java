@@ -15,4 +15,5 @@ public class AccountDto {
 	private BigDecimal initialAmount;
 	private boolean isActive;
 	private Long clientId;
+	private BigDecimal balance;
 }

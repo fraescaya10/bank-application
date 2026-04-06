@@ -8,7 +8,7 @@ public class AccountDtoMapper {
     public static AccountDto toDto(Account account, boolean withMask) {
         String accountNumber = withMask ? Utils.maskNumber(account.getNumber(), 4) : account.getNumber();
         return new AccountDto(account.getId(), accountNumber, account.getType(),
-                account.getInitialAmount(), account.isActive(), account.getClientId());
+                account.getInitialAmount(), account.isActive(), account.getClientId(), account.getBalance());
     }
 
     public static Account toEntity(AccountDto accountDto) {
@@ -16,6 +16,7 @@ public class AccountDtoMapper {
                 .number(accountDto.getNumber())
                 .type(accountDto.getType())
                 .initialAmount(accountDto.getInitialAmount())
+                .balance(accountDto.getBalance())
                 .isActive(accountDto.isActive())
                 .clientId(accountDto.getClientId())
                 .build();

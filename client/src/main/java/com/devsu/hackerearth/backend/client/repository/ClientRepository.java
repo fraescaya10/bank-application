@@ -7,5 +7,6 @@ import com.devsu.hackerearth.backend.client.model.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-
+    boolean existsByDni(String dni);
+    boolean existsByEmail(String email);
 }

@@ -49,14 +49,10 @@ public class AccountServiceImpl implements AccountService {
 
         try {
             logger.info("Attempting to create an account");
+            accountDto.setNumber(UUID.randomUUID().toString());// Numero de cuenta generado
+            accountDto.setBalance(accountDto.getInitialAmount());
             // Create account
-            Account newAccount = Account.builder()
-                    .number(UUID.randomUUID().toString())
-                    .initialAmount(accountDto.getInitialAmount())
-                    .balance(accountDto.getInitialAmount())
-                    .type(accountDto.getType())
-                    .clientId(accountDto.getClientId())
-                    .build();
+            Account newAccount = AccountDtoMapper.toEntity(accountDto);
 
             Account accountSaved = this.accountRepository.save(newAccount);
             logger.info("Account created successfully!");
