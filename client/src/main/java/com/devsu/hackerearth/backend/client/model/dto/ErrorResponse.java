@@ -1,6 +1,7 @@
 package com.devsu.hackerearth.backend.client.model.dto;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,6 @@ public class ErrorResponse {
     private String path;
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
+    private Map<String, String> fieldErrors;
 
 }

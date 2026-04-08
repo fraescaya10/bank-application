@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Compiled class file
 *.class
 
@@ -34,4 +33,3 @@ mvnw.cmd
 .idea/
 *.iml
 .vscode/
->>>>>>> 7405b43 (Initial changes)

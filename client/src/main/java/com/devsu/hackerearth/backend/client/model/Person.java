@@ -1,7 +1,11 @@
 package com.devsu.hackerearth.backend.client.model;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
+
+import com.devsu.hackerearth.backend.client.model.dto.GenderType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +23,11 @@ public class Person extends Base {
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String dni;
 
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private GenderType gender;
 
 	@Column(nullable = false)
 	private int age;
@@ -30,7 +35,7 @@ public class Person extends Base {
 	@Column(nullable = false)
 	private String address;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String email;
 
 	@Column(nullable = false)

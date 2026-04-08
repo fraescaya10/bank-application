@@ -30,13 +30,13 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public List<ClientDto> getAll() {
 		// Get all clients
-		return this.clientRepository.findAll().stream().map(ClientDtoMapper::toDto).collect(Collectors.toList());
+		return this.clientRepository.findAllByIsDeletedFalse().stream().map(ClientDtoMapper::toDto).collect(Collectors.toList());
 	}
 
 	@Override
 	public ClientDto getById(Long id) {
 		// Get clients by id
-		Client client = this.clientRepository.findById(id)
+		Client client = this.clientRepository.findByIdAndIsDeletedFalse(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Client", id));
 		return ClientDtoMapper.toDto(client);
 	}
@@ -47,11 +47,11 @@ public class ClientServiceImpl implements ClientService {
 		// Create client
 
 		try {
-			if(this.clientRepository.existsByDni(clientDto.getDni())) {
+			if (this.clientRepository.existsByDniAndIsDeletedFalse(clientDto.getDni())) {
 				throw new ClientException("Dni already exists");
 			}
 
-			if(this.clientRepository.existsByEmail(clientDto.getEmail())) {
+			if (this.clientRepository.existsByEmailAndIsDeletedFalse(clientDto.getEmail())) {
 				throw new ClientException("Email already exists");
 			}
 
@@ -66,7 +66,7 @@ public class ClientServiceImpl implements ClientService {
 
 			return ClientDtoMapper.toDto(clientSaved);
 		} catch (ClientException ex) {
-			logger.error("Error on create Client: ", ex.getMessage());
+			logger.error("Error on create Client: {}", ex.getMessage());
 			throw ex;
 		} catch (Exception ex) {
 			logger.error("Error on create Client: ", ex);
@@ -74,20 +74,68 @@ public class ClientServiceImpl implements ClientService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public ClientDto update(Long id, ClientDto clientDto) {
 		// Update client
-		return null;
+		try {
+			logger.info("Attempting to update client with id={}", id);
+			if (null == id) {
+				throw new ClientException("Client ID is null");
+			}
+			Client clientToUpdate = this.clientRepository.findByIdAndIsDeletedFalse(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Client", id));
+
+			clientToUpdate.setDni(clientDto.getDni());
+			clientToUpdate.setName(clientDto.getName());
+			clientToUpdate.setGender(clientDto.getGender());
+			clientToUpdate.setAddress(clientDto.getAddress());
+			clientToUpdate.setPhone(clientDto.getPhone());
+			clientToUpdate.setActive(clientDto.isActive());
+			clientToUpdate.setEmail(clientDto.getEmail());
+
+			Client clientUpdated = this.clientRepository.save(clientToUpdate);
+			logger.info("Client updated successfully!");
+			return ClientDtoMapper.toDto(clientUpdated);
+		} catch (ClientException ex) {
+			logger.info("Error on update client: {}", ex.getMessage());
+			throw ex;
+		} catch (Exception ex) {
+			logger.info("Error on update client: ", ex);
+			throw new ClientException("Error on update client: " + ex.getMessage());
+		}
 	}
 
 	@Override
 	public ClientDto partialUpdate(Long id, PartialClientDto partialClientDto) {
 		// Partial update account
-		return null;
+		logger.info("Attempting to partial update client with id={}", id);
+		if (null == id) {
+			throw new ClientException("Client ID is null");
+		}
+		Client clientToUpdate = this.clientRepository.findByIdAndIsDeletedFalse(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Client", id));
+		;
+		clientToUpdate.setActive(partialClientDto.isActive());
+
+		Client clientUpdated = this.clientRepository.save(clientToUpdate);
+
+		logger.info("Client partial updated successfully!");
+		return ClientDtoMapper.toDto(clientUpdated);
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		// Delete client
+		logger.info("Attempting to delete client with id={}", id);
+		if (null == id) {
+			throw new ClientException("Client ID is null");
+		}
+		Client clientToDelete = this.clientRepository.findByIdAndIsDeletedFalse(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Client", id));
+		clientToDelete.setDeleted(true);
+
+		this.clientRepository.save(clientToDelete);
+		logger.info("Client deleted successfully!");
 	}
 }

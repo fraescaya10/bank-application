@@ -19,4 +19,5 @@ public class Client extends Person {
 	@Column(nullable=false, unique = true)
 	private String password;
 	private boolean isActive;
+	private boolean isDeleted;
 }

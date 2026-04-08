@@ -2,8 +2,11 @@ package com.devsu.hackerearth.backend.client.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.hackerearth.backend.client.model.dto.ClientDto;
 import com.devsu.hackerearth.backend.client.model.dto.PartialClientDto;
+import com.devsu.hackerearth.backend.client.model.dto.ValidationGroups;
 import com.devsu.hackerearth.backend.client.service.ClientService;
 
 @RestController
@@ -29,7 +33,7 @@ public class ClientController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ClientDto>> getAll(){
+	public ResponseEntity<List<ClientDto>> getAll() {
 		// api/clients
 		// Get all clients
 		List<ClientDto> clientsList = this.clientService.getAll();
@@ -37,7 +41,7 @@ public class ClientController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ClientDto> get(@PathVariable Long id){
+	public ResponseEntity<ClientDto> get(@PathVariable Long id) {
 		// api/clients/{id}
 		// Get clients by id
 		ClientDto client = this.clientService.getById(id);
@@ -45,15 +49,16 @@ public class ClientController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ClientDto> create(@RequestBody ClientDto clientDto){
+	public ResponseEntity<ClientDto> create(
+			@Validated(ValidationGroups.OnCreate.class) @RequestBody ClientDto clientDto) {
 		// api/clients
 		// Create client
 		ClientDto client = this.clientService.create(clientDto);
-		return new ResponseEntity<>(client, HttpStatus.OK);
+		return new ResponseEntity<>(client, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ClientDto> update(@PathVariable Long id, @RequestBody ClientDto clientDto){
+	public ResponseEntity<ClientDto> update(@PathVariable Long id, @Valid @RequestBody ClientDto clientDto) {
 		// api/clients/{id}
 		// Update client
 		ClientDto client = this.clientService.update(id, clientDto);
@@ -61,7 +66,8 @@ public class ClientController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<ClientDto> partialUpdate(@PathVariable Long id, @RequestBody PartialClientDto partialClientDto){
+	public ResponseEntity<ClientDto> partialUpdate(@PathVariable Long id,
+			@RequestBody PartialClientDto partialClientDto) {
 		// api/accounts/{id}
 		// Partial update accounts
 		ClientDto client = this.clientService.partialUpdate(id, partialClientDto);
@@ -69,10 +75,10 @@ public class ClientController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		// api/clients/{id}
 		// Delete client
-	
+
 		this.clientService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

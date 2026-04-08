@@ -1,6 +1,6 @@
 package com.devsu.hackerearth.backend.account.service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.repository.query.Param;
@@ -12,7 +12,7 @@ public interface TransactionService {
 
     public List<TransactionDto> getAll();
 	public TransactionDto getById(Long id);
-	public TransactionDto create(TransactionDto transactionDto);
-    public List<BankStatementDto> getAllByAccountClientIdAndDateBetween(Long clientId, @Param("dateTransactionStart") Date dateTransactionStart, @Param("dateTransactionEnd") Date dateTransactionEnd);
+	public List<TransactionDto> create(TransactionDto transactionDto);
+    public List<BankStatementDto> getAllByAccountClientIdAndDateBetween(Long clientId, @Param("dateTransactionStart") LocalDate dateTransactionStart, @Param("dateTransactionEnd") LocalDate dateTransactionEnd);
     public TransactionDto getLastByAccountId(Long accountId);
 }

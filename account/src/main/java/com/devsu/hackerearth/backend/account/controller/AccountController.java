@@ -2,8 +2,11 @@ package com.devsu.hackerearth.backend.account.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.hackerearth.backend.account.model.dto.AccountDto;
 import com.devsu.hackerearth.backend.account.model.dto.PartialAccountDto;
+import com.devsu.hackerearth.backend.account.model.dto.ValidationGroups;
 import com.devsu.hackerearth.backend.account.service.AccountService;
 
 @RestController
@@ -45,14 +49,14 @@ public class AccountController {
 	}
 
 	@PostMapping
-	public ResponseEntity<AccountDto> create(@RequestBody AccountDto accountDto) {
+	public ResponseEntity<AccountDto> create(@Validated(ValidationGroups.OnCreate.class) @RequestBody AccountDto accountDto) {
 		// api/accounts
 		AccountDto accountDtoSaved = this.accountService.create(accountDto);
 		return new ResponseEntity<AccountDto>(accountDtoSaved, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<AccountDto> update(@PathVariable Long id, @RequestBody AccountDto accountDto) {
+	public ResponseEntity<AccountDto> update(@PathVariable Long id, @Valid @RequestBody AccountDto accountDto) {
 		// api/accounts/{id}
 		// Update accounts
 		AccountDto accountUpdated = this.accountService.update(id, accountDto);

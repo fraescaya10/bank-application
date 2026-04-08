@@ -9,10 +9,16 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @MappedSuperclass
 @Getter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Base {
 
 	@Id

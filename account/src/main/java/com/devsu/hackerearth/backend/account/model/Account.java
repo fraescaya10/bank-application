@@ -11,15 +11,15 @@ import javax.persistence.PrePersist;
 import com.devsu.hackerearth.backend.account.model.dto.AccountType;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account extends Base {
@@ -42,6 +42,9 @@ public class Account extends Base {
 
     @Column(name = "client_id")
     private Long clientId;
+
+    @Column
+    private String clientName;
 
     @Column
     private boolean isDeleted;

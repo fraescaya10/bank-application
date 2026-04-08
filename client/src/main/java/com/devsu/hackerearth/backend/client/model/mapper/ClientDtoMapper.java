@@ -5,9 +5,18 @@ import com.devsu.hackerearth.backend.client.model.dto.ClientDto;
 
 public class ClientDtoMapper {
     public static ClientDto toDto(Client client) {
-        return new ClientDto(client.getId(), client.getDni(), client.getName(), client.getPassword(),
-                client.getGender(), client.getAge(), client.getAddress(), client.getPhone(), client.isActive(),
-                client.getEmail());
+        return ClientDto.builder()
+                .id(client.getId())
+                .dni(client.getDni())
+                .name(client.getName())
+                .password(client.getPassword())
+                .gender(client.getGender())
+                .age(client.getAge())
+                .address(client.getAddress())
+                .phone(client.getPhone())
+                .isActive(client.isActive())
+                .email(client.getEmail())
+                .build();
     }
 
     public static Client toEntity(ClientDto clientDto) {
